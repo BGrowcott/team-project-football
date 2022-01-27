@@ -1,0 +1,66 @@
+#crestContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.crests {
+    width: 9%;
+}
+
+.crests:hover{
+    width: 10%;
+    transition: 0.5s all;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+img {
+    width: 80px;
+}
+
+article {
+    display: flex;
+}
+
+#teamContainer {
+    display: flex;
+    width: 50%;
+    border: 2px solid black;
+    justify-content: space-around;
+    align-items: center;
+    height: 250px;
+}
+
+#statisticsContainer {
+    display: flex;
+    width: 50%;
+    border: 2px solid black;
+    justify-content: space-around;
+    align-items: center;
+    height: 250px;
+}
+
+#gamesContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gameContainer {
+    display: flex;
+    width: 50%;
+    border: 2px solid black;
+}
+
+.gameInfo {
+    width: 50%;
+}
+
+.map {
+    width: 50%;
+}
+
