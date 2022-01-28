@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/reset.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/css/style.css" />
     <title>Document</title>
   </head>
@@ -15,9 +16,11 @@
         <h1>Really Good Website Title</h1>
       </div>
       <form>
+        <div class="ui-widget">
         <label for="teamSearch"></label>
         <input id="teamSearch" type="text" />
-        <button>Search</button>
+        </div>
+        <button id="searchButton">Search</button>
       </form>
     </header>
 
@@ -25,20 +28,20 @@
     <div id="teamContainer">
       <img id='teamCrest' src="" alt="Team crest" />
       <ul>
-        <li id="teamName">Team Name</li>
-        <li>stats</li>
-        <li>info</li>
-        <li>stats</li>
+        <li id="teamName"></li>
+        <li id="founded"></li>
+        <li id="venue"></li>
       </ul>
     </div>
 
     <div id="statisticsContainer">
       <ul>
-          <li>League postion</li>
-          <li>games played</li>
-          <li>won</li>
-          <li>lost</li>
-          <li>draw</li>
+          <li id="leaguePosition"></li>
+          <li id='points'></li>
+          <li id="played"></li>
+          <li id="won"></li>
+          <li id="lost"></li>
+          <li id="draw"></li>
       </ul>
     </div>
 </article>
@@ -94,5 +97,6 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="assets/script/script.js"></script>
 </html>
