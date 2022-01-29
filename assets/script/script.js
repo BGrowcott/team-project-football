@@ -1,7 +1,7 @@
-let teamData = "";
-let standings = "";
+let teamData;
+let standings;
 let tagsArray = [];
-let fixturesData = ""
+let fixturesData;
 
 // get data on each Premier League Team
 fetch("https://api.football-data.org/v2/competitions/PL/teams", {
@@ -30,10 +30,11 @@ fetch("https://api.football-data.org/v2/competitions/PL/standings", {
 // adds all crests to the welcome page
 function renderCrests() {
   for (let i = 0; i < teamData.teams.length; i++) {
+    const team = teamData.teams[i];
     $("#crestContainer").append(
       $(
-        `<img class='crests' alt='Crest for ${teamData.teams[i].name} 
-        'title='${teamData.teams[i].name}' data-id="${teamData.teams[i].id}" src=${teamData.teams[i].crestUrl}>`
+        `<img class='crests' alt='Crest for ${team.name} 
+        'title='${team.name}' data-id="${team.id}" src=${team.crestUrl}>`
       )
     );
   }
@@ -43,7 +44,7 @@ function renderCrests() {
 let selectedTeamId = "";
 function renderTeamInfo(e) {
   e.preventDefault();
-  renderTeam()
+  renderTeam();
   renderLeagueStats();
   $("#teamSearch").val("");
 }
@@ -64,38 +65,34 @@ $(function () {
   });
 });
 
-
-function renderTeam(){
-    for (let i = 0; i < teamData.teams.length; i++) {
-        if (
-          $("#teamSearch").val() === teamData.teams[i].name ||
-          $("#teamSearch").val() === teamData.teams[i].shortName
-        ) {
-          selectedTeamId = teamData.teams[i].id;
-          console.log(selectedTeamId);
-          $("#teamCrest").attr("src", `${teamData.teams[i].crestUrl}`);
-          $("#teamName").text(`${teamData.teams[i].name}`);
-          $("#founded").text(`Founded in ${teamData.teams[i].founded}`);
-          $("#venue").text(`${teamData.teams[i].venue}`);
-        }
-      }
+function renderTeam() {
+  for (let i = 0; i < teamData.teams.length; i++) {
+    const team = teamData.teams[i];
+    if (
+      $("#teamSearch").val() === team.name ||
+      $("#teamSearch").val() === team.shortName
+    ) {
+      selectedTeamId = team.id;
+      $("#teamCrest").attr("src", `${team.crestUrl}`);
+      $("#teamName").text(`${team.name}`);
+      $("#founded").text(`Founded in ${team.founded}`);
+      $("#venue").text(`${team.venue}`);
+    }
+  }
 }
 
 // function for adding teams league statistics
 
 function renderLeagueStats() {
   for (let i = 0; i < 20; i++) {
-    if (standings.standings[0].table[i].team.id === selectedTeamId) {
-      $("#leaguePosition").text(
-        `Position: ${standings.standings[0].table[i].position}`
-      );
-      $("#points").text(`Points: ${standings.standings[0].table[i].points}`);
-      $("#played").text(
-        `Games Played: ${standings.standings[0].table[i].playedGames}`
-      );
-      $("#won").text(`Wins: ${standings.standings[0].table[i].won}`);
-      $("#lost").text(`Losses: ${standings.standings[0].table[i].lost}`);
-      $("#draw").text(`Draws: ${standings.standings[0].table[i].draw}`);
+    const teamInPosition = standings.standings[0].table[i];
+    if (teamInPosition.team.id === selectedTeamId) {
+      $("#leaguePosition").text(`Position: ${teamInPosition.position}`);
+      $("#points").text(`Points: ${teamInPosition.points}`);
+      $("#played").text(`Games Played: ${teamInPosition.playedGames}`);
+      $("#won").text(`Wins: ${teamInPosition.won}`);
+      $("#lost").text(`Losses: ${teamInPosition.lost}`);
+      $("#draw").text(`Draws: ${teamInPosition.draw}`);
     }
   }
 }
