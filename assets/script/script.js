@@ -2,6 +2,7 @@ let teamData;
 let standings;
 let tagsArray = [];
 let fixturesData;
+let crestButtonArray;
 
 // get data on each Premier League Team
 fetch("https://api.football-data.org/v2/competitions/PL/teams", {
@@ -13,35 +14,23 @@ fetch("https://api.football-data.org/v2/competitions/PL/teams", {
   .then(function (data) {
     teamData = data;
   })
-  .then(renderCrests)
-  .then(fillTagsArray);
-
-// get data for league standings
-fetch("https://api.football-data.org/v2/competitions/PL/standings", {
-  headers: { "X-Auth-Token": "b7bac95afb44489a83d8eb77fc894151" },
-})
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    standings = data;
-  });
-
-// adds all crests to the welcome page
-function renderCrests() {
-  for (let i = 0; i < teamData.teams.length; i++) {
-    const team = teamData.teams[i];
-    $("#crestContainer").append(
-      $(
-        `<img class='crests' alt='Crest for ${team.name} 
-        'title='${team.name}' data-id="${team.id}" src=${team.crestUrl}>`
-      )
-    );
-  }
-}
+  .then(fillTagsArray)
+  .then(() =>
+    // get data for league standings
+    fetch("https://api.football-data.org/v2/competitions/PL/standings", {
+      headers: { "X-Auth-Token": "b7bac95afb44489a83d8eb77fc894151" },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        standings = data;
+      })
+      .then(loadTeamFromWelcomePage)
+  );
 
 // function for adding team info on search button
-let selectedTeamId = "";
+let selectedTeamId;
 function renderTeamInfo(e) {
   e.preventDefault();
   renderTeam();
@@ -95,4 +84,17 @@ function renderLeagueStats() {
       $("#draw").text(`Draws: ${teamInPosition.draw}`);
     }
   }
+}
+
+// get QueryString parameters from welcome page and use it to render results
+const urlParams = new URLSearchParams(window.location.search);
+function loadTeamFromWelcomePage() {
+  for (let i = 0; i < 20; i++) {
+    if (parseInt(urlParams.get("id"), 10) === teamData.teams[i].id) {
+      $("#teamSearch").val(teamData.teams[i].name);
+    }
+  }
+  renderTeam();
+  renderLeagueStats();
+  $("#teamSearch").val("");
 }
