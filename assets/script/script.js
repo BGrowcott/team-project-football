@@ -35,6 +35,7 @@ function renderTeamInfo(e) {
   e.preventDefault();
   renderTeam();
   renderLeagueStats();
+  fetchFixtures();
   $("#teamSearch").val("");
 }
 
@@ -47,19 +48,20 @@ function fillTagsArray() {
     tagsArray.push(teamData.teams[i].name);
   }
 }
-
+// jQuery UI autocomplete widget
 $(function () {
   $("#teamSearch").autocomplete({
     source: tagsArray,
   });
 });
 
+// render team information
 function renderTeam() {
   for (let i = 0; i < teamData.teams.length; i++) {
     const team = teamData.teams[i];
     if (
-      $("#teamSearch").val() === team.name ||
-      $("#teamSearch").val() === team.shortName
+      $("#teamSearch").val().toUpperCase() === team.name.toUpperCase() ||
+      $("#teamSearch").val().toUpperCase() === team.shortName.toUpperCase()
     ) {
       selectedTeamId = team.id;
       $("#teamCrest").attr("src", `${team.crestUrl}`);
@@ -96,5 +98,75 @@ function loadTeamFromWelcomePage() {
   }
   renderTeam();
   renderLeagueStats();
+  fetchFixtures();
   $("#teamSearch").val("");
+}
+
+// fetch upcoming fixtures
+function fetchFixtures() {
+  fetch(
+    `https://api.football-data.org/v2/teams/${selectedTeamId}/matches?status=SCHEDULED`,
+    {
+      headers: { "X-Auth-Token": "b7bac95afb44489a83d8eb77fc894151" },
+    }
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      fixturesData = data;
+    })
+    .then(renderFixtures);
+}
+
+// render fixtures
+function renderFixtures() {
+  $("#fixturesContainer").empty();
+  for (i = 0; i < 10; i++) {
+    const fixture = fixturesData.matches[i];
+    $("#fixturesContainer").append(
+      $(
+        `<div class="gameContainer">
+          <div class="gameInfo">
+            <ul>
+              <li>${moment
+                .utc(fixture.utcDate)
+                .format("DD/MM/YYYY - HH:mm")}</li>
+              <li>${fixture.competition.name}</li>
+              <li>${fixture.homeTeam.name} vs ${fixture.awayTeam.name}</li>
+              <li>${stadiumChooser(fixture)}</li>
+            </ul>
+          </div>
+          <div class="map">
+            map
+          </div>
+        </div>`
+      )
+    );
+  }
+}
+
+function stadiumChooser(fixture) {
+  let homeTeam = fixture.homeTeam.id;
+  for (let team of teamData.teams) {
+    if (team.id === homeTeam) {
+      return team.venue;
+    }
+  }
+}
+
+const fixtureToggleButton = $("#showFixtures")
+const fixturesContainer = $("#fixturesContainer")
+fixtureToggleButton.click(toggleFixturesDisplay);
+
+function toggleFixturesDisplay() {
+  if (fixturesContainer.css("display") === "none") {
+    fixturesContainer.css("display", "flex");
+    fixtureToggleButton.text('Hide Fixtures')
+    return
+  }
+  if (fixturesContainer.css("display") === "flex") {
+    fixturesContainer.css("display", "none");
+    fixtureToggleButton.text('Show Fixtures')
+  }
 }

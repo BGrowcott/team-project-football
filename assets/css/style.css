@@ -34,41 +34,49 @@ img {
 
 article {
   display: flex;
+  margin-top: 30px;
+  border-bottom: 2px dashed black;
+  flex-wrap: wrap;
 }
 
 #teamContainer {
   display: flex;
   width: 50%;
-  border: 2px solid black;
   justify-content: space-around;
   align-items: center;
-  height: 250px;
 }
 
 #statisticsContainer {
   display: flex;
   width: 50%;
-  border: 2px solid black;
   justify-content: space-around;
   align-items: center;
-  height: 250px;
 }
 
-#gamesContainer {
-  display: flex;
+#fixturesContainer {
+  margin-top: 10px;
+  display: none;
   flex-wrap: wrap;
 }
 
 .gameContainer {
   display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   width: 50%;
-  border: 2px solid black;
 }
 
-.gameInfo {
-  width: 50%;
+#buttonContainer{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
 
 .map {
+  margin: 5px;
   width: 50%;
+  height: 200px;
+  border: 1px solid black;
 }
