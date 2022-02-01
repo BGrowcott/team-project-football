@@ -68,7 +68,7 @@ article {
   width: 50%;
 }
 
-#buttonContainer{
+#buttonContainer {
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -79,4 +79,8 @@ article {
   width: 50%;
   height: 200px;
   border: 1px solid black;
+}
+
+.fixtureCrest {
+  width: 30px;
 }
